@@ -22,65 +22,63 @@ public:
 	{
 		if (isEmpty()) return;
   
-		Node* node = head_node;
-
-		while (node->next_node) {
+		clearList(head_node);
+	}
+	
+	void clearList(Node* node)
+	{
+		if (node->next_node) {
+			Node* n = node->next_node;
 			delete node;
-			node = node->next_node;
+			return clearList(n);
 		}
 	}
-	
-	bool isEmpty()
-	{
-		return !head_node;
-	}
 
-	
 	bool append(int value)
 	{
+		Node* new_node = new Node { value, NULL };
+
 		if (!isEmpty())
 		{
 			Node* last_node = getLastNode();
-			Node* new_node = new Node { value, NULL };
-			
 			last_node->next_node = new_node;
 		}
 		else {
-			Node* new_node = new Node { value, NULL };
 			head_node = new_node;
 		}
+
 		return true;
 	}
 	// call only when list is not empty 
-	Node* getLastNode()
+	Node* getLastNode(Node* node)
 	{
-		Node* node = head_node;
-
-		while (node->next_node) {
-			node = node->next_node;
-		}
-
+		if (node->next_node)
+			return getLastNode(node->next_node);
+		
 		return node;
 	}
+
+	Node* getLastNode()
+	{
+		return getLastNode(head_node);
+	}
 	
-	bool print()
+	void print()
 	{
 		if (isEmpty()) {
 			cout<<"Empty linked list\n";
-			return false;
+		} else {
+			print(head_node);
 		}
+	}
 
-		Node* node = head_node;
-		cout<<node->value;
-
-		while (node->next_node) {
-			node = node->next_node;
-			cout<<" -> "<<node->value;
+	void print(Node* node) {
+		if (node->next_node) {
+			cout<<node->value<<" -> ";
+			return print(node->next_node);
+		} else {
+			cout<<node->value<<endl;
 		}
-		
-		cout<<endl;
-		
-		return true;
 	}
 
 	bool prepend(int value)
@@ -101,14 +99,20 @@ public:
 
 		for(int i = 0; i < position; i++)
 		{
-			if (!node->next_node && i != position - 1)
+			if (!node && position != i)
 				return -1;
 			if (position - 1 == i)
 				return node->value;
 
 			node = node->next_node;
 		}
-		return node->value;
+	
+		return -1;
+	}
+
+	bool isEmpty()
+	{
+		return !head_node;
 	}
 };
 
@@ -129,6 +133,7 @@ int main()
 	list.prepend(59);
 	list.prepend(69);
 	list.print();
+
 	cout<<"1: "<<list.at(1)<<" 2: "<<list.at(2)<<" "<<list.at(111)<<endl;
 	cout<<list.at(8)<<" "<<list.at(9)<<endl;
 	return 0;
