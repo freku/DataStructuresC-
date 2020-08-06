@@ -35,6 +35,7 @@ public:
 		return !head_node;
 	}
 
+	
 	bool append(int value)
 	{
 		if (!isEmpty())
@@ -50,7 +51,7 @@ public:
 		}
 		return true;
 	}
-	// called only after checking if list is empty
+	// call only when list is not empty 
 	Node* getLastNode()
 	{
 		Node* node = head_node;
@@ -81,22 +82,54 @@ public:
 		
 		return true;
 	}
+
+	bool prepend(int value)
+	{
+		Node* new_node = new Node { value, NULL };
+
+		if (!isEmpty())
+			new_node->next_node = head_node;
+
+		head_node = new_node;
+
+		return true;
+	}
+
+	int at(int position)
+	{
+		Node* node = head_node;
+
+		for(int i = 0; i < position; i++)
+		{
+			if (!node->next_node && i != position - 1)
+				return -1;
+			if (position - 1 == i)
+				return node->value;
+
+			node = node->next_node;
+		}
+		return node->value;
+	}
 };
 
 int main()
 {
 	LinkedList list;
 	list.print();
-	list.append(1);
+	list.prepend(1);
 	
 	list.print();
 
-	list.append(29);
-	list.append(39);
+	list.prepend(29);
+	list.prepend(39);
+	list.append(101);
+	list.append(102);
 
-	list.append(49);
-	list.append(59);
-	list.append(69);
+	list.prepend(49);
+	list.prepend(59);
+	list.prepend(69);
 	list.print();
+	cout<<"1: "<<list.at(1)<<" 2: "<<list.at(2)<<" "<<list.at(111)<<endl;
+	cout<<list.at(8)<<" "<<list.at(9)<<endl;
 	return 0;
 }
