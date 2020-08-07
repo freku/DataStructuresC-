@@ -52,20 +52,18 @@ public:
 
 	void removeAt(int pos)
 	{
+		Node* node = head_node;
 		if (pos == 0) {
-			Node* node = head_node;
 			head_node = node->next_node;
 			delete node;
 			return;
 		}
 
-		Node* node = head_node;
-
 		for (int i = 0; i < pos - 1; i++)
 			node = node->next_node;
 
 		Node* to_delete = node->next_node;
-		node->next_node = node->next_node->next_node;
+		node->next_node = to_delete->next_node;
 		delete to_delete;
 	}
 
@@ -104,16 +102,31 @@ public:
 			cout<<"Empty linked list\n";
 		} else {
 			print(head_node);
+			cout<<endl;
 		}
 	}
 
 	void print(Node* node) {
-		if (node->next_node) {
-			cout<<node->value<<" -> ";
+		cout<<node->value<<" ";
+		
+		if (node->next_node)
 			return print(node->next_node);
+	}
+
+	void reversePrint() {
+		if (isEmpty()) {
+			cout<<"Empty list\n";
 		} else {
-			cout<<node->value<<endl;
+			reversePrint(head_node);
+			cout<<endl;
 		}
+	}
+	
+	void reversePrint(Node* node) {
+		if (node->next_node)
+			reversePrint(node->next_node);
+
+		cout<<node->value<<" ";
 	}
 
 	bool prepend(int value)
@@ -160,6 +173,7 @@ int main()
 	list.print();
 	list.removeAt(0);
 	list.print();
+	list.reversePrint();
 	cout<<"1: "<<list.at(1)<<" 2: "<<list.at(2)<<" "<<list.at(1)<<endl;
 	//cout<<list.at(3)<<" "<<list.at(3)<<endl;
 	return 0;
