@@ -15,7 +15,7 @@ public:
 
 	LinkedList()
 	{
-		   head_node = NULL;
+		head_node = NULL;
 	}
 
 	~LinkedList()
@@ -32,6 +32,22 @@ public:
 			delete node;
 			return clearList(n);
 		}
+	}
+
+	void insertAt(int value, int pos)
+	{
+		Node* next = head_node;
+		
+		if (pos == 0) {
+			head_node = new Node {value, head_node};
+			return;
+		}
+		
+		for (int i = 0; i < pos - 1; i++)
+			next = next->next_node;
+		
+		Node* new_node = new Node {value, next->next_node};
+		next->next_node = new_node;
 	}
 
 	bool append(int value)
@@ -93,21 +109,14 @@ public:
 		return true;
 	}
 
-	int at(int position)
+	int at(int pos)
 	{
 		Node* node = head_node;
-
-		for(int i = 0; i < position; i++)
-		{
-			if (!node && position != i)
-				return -1;
-			if (position - 1 == i)
-				return node->value;
-
+		
+		for (int i = 0; i < pos; i++)
 			node = node->next_node;
-		}
-	
-		return -1;
+		
+		return node->value;
 	}
 
 	bool isEmpty()
@@ -120,21 +129,15 @@ int main()
 {
 	LinkedList list;
 	list.print();
-	list.prepend(1);
-	
+	list.insertAt(2, 0);
+	list.insertAt(3, 1);
+	list.insertAt(4, 0);
+	list.insertAt(5, 1);
 	list.print();
-
-	list.prepend(29);
-	list.prepend(39);
-	list.append(101);
-	list.append(102);
-
-	list.prepend(49);
-	list.prepend(59);
-	list.prepend(69);
+	list.append(10);
+	list.prepend(101);
 	list.print();
-
-	cout<<"1: "<<list.at(1)<<" 2: "<<list.at(2)<<" "<<list.at(111)<<endl;
-	cout<<list.at(8)<<" "<<list.at(9)<<endl;
+	cout<<"1: "<<list.at(1)<<" 2: "<<list.at(2)<<" "<<list.at(1)<<endl;
+	cout<<list.at(3)<<" "<<list.at(3)<<endl;
 	return 0;
 }
