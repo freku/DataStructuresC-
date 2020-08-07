@@ -50,6 +50,25 @@ public:
 		next->next_node = new_node;
 	}
 
+	void removeAt(int pos)
+	{
+		if (pos == 0) {
+			Node* node = head_node;
+			head_node = node->next_node;
+			delete node;
+			return;
+		}
+
+		Node* node = head_node;
+
+		for (int i = 0; i < pos - 1; i++)
+			node = node->next_node;
+
+		Node* to_delete = node->next_node;
+		node->next_node = node->next_node->next_node;
+		delete to_delete;
+	}
+
 	bool append(int value)
 	{
 		Node* new_node = new Node { value, NULL };
@@ -137,7 +156,11 @@ int main()
 	list.append(10);
 	list.prepend(101);
 	list.print();
+	list.removeAt(1);
+	list.print();
+	list.removeAt(0);
+	list.print();
 	cout<<"1: "<<list.at(1)<<" 2: "<<list.at(2)<<" "<<list.at(1)<<endl;
-	cout<<list.at(3)<<" "<<list.at(3)<<endl;
+	//cout<<list.at(3)<<" "<<list.at(3)<<endl;
 	return 0;
 }
