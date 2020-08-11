@@ -1,5 +1,7 @@
 #include <iostream>
 #include <cstring>
+#include <sstream>
+#include <vector>
 
 using namespace std;
 
@@ -60,20 +62,7 @@ public:
 
 int main() {
 	Stack stack(10);
-	int last_size = stack.getSize();
-	for (int i = 0; i< 1000; i++) {
-		if (last_size != stack.getSize()) {
-			cout<<"new size: "<<stack.getSize()<<endl;
-			last_size = stack.getSize();
-		}
-		stack.push(i);
-	}
-	//stack.push(1); stack.print();
-	//stack.push(2); stack.print();
-	//stack.push(3); stack.print();
-	//stack.pop(); stack.print();
-	//stack.pop(); stack.print();
-	//stack.push(101); stack.print();
+	
 	
 	return 0;	   
 }
